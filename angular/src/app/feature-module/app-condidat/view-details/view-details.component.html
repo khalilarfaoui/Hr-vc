@@ -1,0 +1,56 @@
+<div
+  class="page-wrapper"
+  (resized)="onResize($event)"
+  [ngStyle]="{ height: innerHeight }"
+>
+  <div class="content container-fluid">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="row align-items-center">
+        <div class="col">
+          <h3 class="page-title">Offre details</h3>
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a>Condidat</a>
+            </li>
+            <li class="breadcrumb-item active">Offre</li>
+          </ul>
+        </div>
+        <!-- <div class="col-auto float-end ms-auto">
+          <a
+            href="#"
+            class="btn add-btn"
+            data-bs-toggle="modal"
+            data-bs-target="#add_categories"
+            ><i class="fa-solid fa-plus"></i> Add Categories</a
+          >
+        </div> -->
+      </div>
+    </div>
+    <!-- /Page Header -->
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="container mt-4" *ngIf="offre">
+          <button class="btn btn-success" (click)="postuler(offre.id)">
+            Postuler
+          </button>
+
+          <div class="card shadow-sm mt-1">
+            <div class="card-header">
+              <h4>{{ offre.titre }}</h4>
+            </div>
+            <div class="card-body">
+              <p><strong>Entreprise:</strong> {{ offre.entreprise }}</p>
+              <p><strong>Localisation:</strong> {{ offre.localisation }}</p>
+              <p><strong>Salaire:</strong> {{ offre.salaire | currency:'EUR' }}</p>
+              <p><strong>Type de Contrat:</strong> {{ offre.typeContrat }}</p>
+              <p><strong>Description:</strong> {{ offre.description }}</p>
+              <a class="btn btn-secondary" routerLink="/acceuil/acceuil-page">Retour à la liste</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

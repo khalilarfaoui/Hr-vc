@@ -1,0 +1,70 @@
+<div
+  class="page-wrapper"
+  (resized)="onResize($event)"
+  [ngStyle]="{ height: innerHeight }"
+>
+  <div class="content container-fluid">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="row align-items-center">
+        <div class="col">
+          <h3 class="page-title">Postulations</h3>
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a>Responsable</a>
+            </li>
+            <li class="breadcrumb-item active">Postulations</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+    <!-- /Page Header -->
+
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Nom</th>
+              <th>Email</th>
+              <th>Message</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let offre of offres; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ offre.nom }}</td>
+              <td>{{ offre.email }}</td>
+              <td>{{ offre.message }}</td>
+              <td>
+
+
+                <!-- Bouton pour télécharger le CV -->
+                <button class="btn btn-secondary" (click)="downloadCv(offre.cvPath)">Télécharger</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Affichage du PDF dans une modal -->
+        <div class="modal" tabindex="-1" *ngIf="selectedCvUrl">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">CV PDF</h5>
+                <button type="button" class="btn-close" (click)="closeModal()"></button>
+              </div>
+              <div class="modal-body">
+                <iframe [src]="selectedCvUrl | safeUrl" width="100%" height="500px"></iframe>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,70 @@
+<div
+  class="page-wrapper"
+  (resized)="onResize($event)"
+  [ngStyle]="{ height: innerHeight }"
+>
+  <div class="content container-fluid">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="row align-items-center">
+        <div class="col">
+          <h3 class="page-title">Postuler</h3>
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a>Condidat</a>
+            </li>
+            <li class="breadcrumb-item active">Offre</li>
+          </ul>
+        </div>
+        <!-- <div class="col-auto float-end ms-auto">
+          <a
+            href="#"
+            class="btn add-btn"
+            data-bs-toggle="modal"
+            data-bs-target="#add_categories"
+            ><i class="fa-solid fa-plus"></i> Add Categories</a
+          >
+        </div> -->
+      </div>
+    </div>
+    <!-- /Page Header -->
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="container mt-4" *ngIf="offre">
+          <div class="card shadow-sm">
+            <div class="card-header">
+              <h4>Postuler pour l'offre: {{ offre.titre }}</h4>
+            </div>
+            <div class="card-body">
+              <form [formGroup]="postulerForm" (ngSubmit)="postuler()">
+                <div class="form-group">
+                  <label for="nom">Nom</label>
+                  <input id="nom" formControlName="nom" class="form-control" type="text">
+                </div>
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <input id="email" formControlName="email" class="form-control" type="email">
+                </div>
+                <div class="form-group">
+                  <label for="message">Message</label>
+                  <textarea id="message" formControlName="message" class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="cv">CV</label>
+                  <input
+                    id="cv"
+                    class="form-control"
+                    type="file"
+                    (change)="onFileSelected($event)"
+                  />
+                </div>
+                <button class="btn btn-primary" type="submit" [disabled]="postulerForm.invalid">Postuler</button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>

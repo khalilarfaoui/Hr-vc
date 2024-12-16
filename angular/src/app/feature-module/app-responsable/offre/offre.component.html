@@ -1,0 +1,348 @@
+<!-- Page Content -->
+<div
+  class="page-wrapper"
+  (resized)="onResize($event)"
+  [ngStyle]="{ height: innerHeight }"
+>
+  <div class="content container-fluid">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="row align-items-center">
+        <div class="col">
+          <h3 class="page-title">Offres</h3>
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a>Responsable</a>
+            </li>
+            <li class="breadcrumb-item active">Offres</li>
+          </ul>
+        </div>
+        <div class="col-auto float-end ms-auto">
+          <a
+            href="#"
+            class="btn add-btn"
+            data-bs-toggle="modal"
+            data-bs-target="#add_offres"
+            ><i class="fa-solid fa-plus"></i> Add Offre</a
+          >
+        </div>
+      </div>
+    </div>
+    <!-- /Page Header -->
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="table_header">
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+              <div class="dataTables_length">
+                <label>
+                  Show
+                  <select
+                    [(ngModel)]="pageSize"
+                    (ngModelChange)="changePageSize()"
+                    class="form-control form-control-sm"
+                  >
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                  </select>
+                  Entries
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+              <div class="dataTables_filter">
+                <label>
+                  Search:
+                  <input
+                    [(ngModel)]="searchDataValue"
+                    (ngModelChange)="searchData(searchDataValue)"
+                    class="form-control form-control-sm"
+                  />
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table
+            matSort
+            (matSortChange)="sortData($event)"
+            class="table table-striped custom-table mb-0"
+          >
+            <thead>
+              <tr>
+                <th mat-sort-header="id">#</th>
+                <th mat-sort-header="titre">Titre</th>
+                <th mat-sort-header="description">Description</th>
+                <th mat-sort-header="entreprise">Entreprise</th>
+                <th mat-sort-header="localisation">Localisation</th>
+                <th mat-sort-header="salaire">Salaire</th>
+                <th mat-sort-header="typeContrat">Type de Contrat</th>
+                <th class="text-end">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let offre of lstOffres">
+                <td>{{ offre.id }}</td>
+                <td>{{ offre.titre }}</td>
+                <td>{{ offre.description }}</td>
+                <td>{{ offre.entreprise }}</td>
+                <td>{{ offre.localisation }}</td>
+                <td>{{ offre.salaire | currency:'TND' }}</td> <!-- Currency formatting -->
+                <td>{{ offre.typeContrat }}</td>
+                <td class="text-end">
+                  <div class="dropdown dropdown-action">
+                    <a
+                      class="action-icon dropdown-toggle"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                      ><i class="material-icons">more_vert</i></a
+                    >
+                    <div class="dropdown-menu dropdown-menu-right">
+                      <a
+                        class="dropdown-item"
+                        data-bs-toggle="modal"
+                        (click)="loadDataToEdit(offre)"
+                        data-bs-target="#edit_offres"
+                        ><i class="fa-solid fa-pencil m-r-5"></i> Edit</a
+                      >
+                      <a
+                        (click)="loadDataDelete(offre.id)"
+                        class="dropdown-item"
+                        data-bs-toggle="modal"
+                        data-bs-target="#delete_offre"
+                        ><i class="fa-regular fa-trash-can m-r-5"></i> Delete</a
+                      >
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr *ngIf="lstOffres.length === 0">
+                <td colspan="8">
+                  <h5 style="text-align: center">No data found</h5>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- Pagination and Footer -->
+        <div class="table_footer">
+          <div class="col-sm-12 col-md-5">
+            <div class="dataTables_info">
+              Showing {{ serialNumberArray[0] }} to
+              {{ serialNumberArray[serialNumberArray.length - 1] }} of
+              {{ totalData }} entries
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-7">
+            <div class="pagination_section">
+              <ul class="pagination">
+                <!-- Pagination controls similar to Categories example -->
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <!-- Add Offre Modal -->
+ <!-- Add Offre Modal -->
+<div id="add_offres" class="modal custom-modal fade" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Offre</h5>
+        <button
+          type="button"
+          class="close"
+          #closeAdd
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="addOffreForm">
+          <div class="form-group">
+            <label>Titre <span class="text-danger">*</span></label>
+            <input class="form-control" type="text" formControlName="titre" />
+          </div>
+          <div class="form-group">
+            <label>Description <span class="text-danger">*</span></label>
+            <textarea
+              class="form-control"
+              formControlName="description"
+            ></textarea>
+          </div>
+          <div class="form-group">
+            <label>Entreprise <span class="text-danger">*</span></label>
+            <input
+              class="form-control"
+              type="text"
+              formControlName="entreprise"
+            />
+          </div>
+          <div class="form-group">
+            <label>Localisation <span class="text-danger">*</span></label>
+            <input
+              class="form-control"
+              type="text"
+              formControlName="localisation"
+            />
+          </div>
+          <div class="form-group">
+            <label>Salaire <span class="text-danger">*</span></label>
+            <input
+              class="form-control"
+              type="number"
+              formControlName="salaire"
+            />
+          </div>
+          <div class="form-group">
+            <label>Type de Contrat <span class="text-danger">*</span></label>
+            <select class="form-control" formControlName="typeContrat">
+              <option value="">Sélectionnez le type de contrat</option>
+              <option value="CDD">CDD</option>
+              <option value="CDI">CDI</option>
+              <option value="FREELANCE">Freelance</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Categories <span class="text-danger">*</span></label>
+            <select class="form-control" formControlName="categoryId">
+              <option [value]="i.id" *ngFor="let i of categories">{{i.name}}</option>
+            </select>
+          </div>
+          <div class="submit-section">
+            <button class="btn btn-primary submit-btn" (click)="onSubmit()">
+              Submit
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Offre Modal -->
+<div id="edit_offres" class="modal custom-modal fade" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Offre</h5>
+        <button
+          type="button"
+          class="close"
+          #closeEdit
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="editOffreForm">
+          <div class="form-group">
+            <label>Titre <span class="text-danger">*</span></label>
+            <input class="form-control" type="text" formControlName="titre" />
+          </div>
+          <div class="form-group">
+            <label>Description <span class="text-danger">*</span></label>
+            <textarea
+              class="form-control"
+              formControlName="description"
+            ></textarea>
+          </div>
+          <div class="form-group">
+            <label>Entreprise <span class="text-danger">*</span></label>
+            <input
+              class="form-control"
+              type="text"
+              formControlName="entreprise"
+            />
+          </div>
+          <div class="form-group">
+            <label>Localisation <span class="text-danger">*</span></label>
+            <input
+              class="form-control"
+              type="text"
+              formControlName="localisation"
+            />
+          </div>
+          <div class="form-group">
+            <label>Salaire <span class="text-danger">*</span></label>
+            <input
+              class="form-control"
+              type="number"
+              formControlName="salaire"
+            />
+          </div>
+          <div class="form-group">
+            <label>Type de Contrat <span class="text-danger">*</span></label>
+            <select class="form-control" formControlName="typeContrat">
+              <option value="">Sélectionnez le type de contrat</option>
+              <option value="CDD">CDD</option>
+              <option value="CDI">CDI</option>
+              <option value="FREELANCE">Freelance</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Categories <span class="text-danger">*</span></label>
+            <select class="form-control" formControlName="categoryId">
+              <option [value]="i.id" *ngFor="let i of categories">{{i.name}}</option>
+            </select>
+          </div>
+          <div class="submit-section">
+            <button
+              class="btn btn-primary submit-btn"
+              (click)="onSubmitEdit()"
+            >
+              Submit
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- Delete Offre Modal -->
+  <div class="modal custom-modal fade" id="delete_offre" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="form-header">
+            <h3>Delete Offre</h3>
+            <p>Are you sure want to delete?</p>
+          </div>
+          <div class="modal-btn delete-action">
+            <div class="row">
+              <div class="col-6">
+                <a class="btn btn-primary continue-btn" (click)="delete()"
+                  >Delete</a
+                >
+              </div>
+              <div class="col-6">
+                <a
+                  data-bs-dismiss="modal"
+                  #closeModelDelete
+                  class="btn btn-primary cancel-btn"
+                  >Cancel</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /Page Content -->

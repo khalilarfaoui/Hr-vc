@@ -1,0 +1,62 @@
+<div
+  class="page-wrapper"
+  (resized)="onResize($event)"
+  [ngStyle]="{ height: innerHeight }"
+>
+  <div class="content container-fluid">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="row align-items-center">
+        <div class="col">
+          <h3 class="page-title">Categories</h3>
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a>Condidat</a>
+            </li>
+            <li class="breadcrumb-item active">Offre</li>
+          </ul>
+        </div>
+        <div class="col-auto float-end ms-auto">
+         <div class="row">
+          <div class="form-group col">
+            <label>Categories <span class="text-danger">*</span></label>
+            <select class="form-control" style="width: 300px;" [(ngModel)]="selectedCaategory" >
+              <option value="All">All</option>
+              <option [value]="i.id" *ngFor="let i of categories">{{i.name}}</option>
+            </select>
+          </div>
+          <div class="form-group col">
+            <label style="color: white;" >test</label> <br>
+            <button class="btn btn-success" (click)="onSearch()">Search</button>
+
+          </div>
+         </div>
+        </div>
+      </div>
+    </div>
+    <!-- /Page Header -->
+
+    <div class="row">
+      <div class="col-md-12">
+        <div >
+          <div class="row">
+            <div class="col-md-4" *ngFor="let offre of offres">
+              <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                  <h5 class="card-title">{{ offre.titre }}</h5>
+                  <p class="card-text">
+                    <strong>Entreprise:</strong> {{ offre.entreprise }}<br>
+                    <strong>Localisation:</strong> {{ offre.localisation }}<br>
+                    <strong>Salaire:</strong> {{ offre.salaire | currency:'EUR' }}<br>
+                  </p>
+                  <button class="btn btn-primary" (click)="viewDetails(offre.id)">View Details</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

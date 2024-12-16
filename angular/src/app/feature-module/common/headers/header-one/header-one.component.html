@@ -1,0 +1,132 @@
+			<!-- Header -->
+            <div class="header">
+
+				<!-- Logo -->
+                <div class="header-left">
+                     <a [routerLink]="'/dashboard/admin'" class="logo">
+						<img src="assets/img/logo.png" width="40" height="40" alt="">
+					</a>
+					<a [routerLink]="'/dashboard/admin'" class="logo2">
+						<img src="assets/img/logo2.png" width="40" height="40" alt="">
+					</a>
+                </div>
+				<!-- /Logo -->
+
+				<a (click)="toggleSideBar()" id="toggle_btn" href="javascript:void(0);">
+					<span class="bar-icon" [hidden]="!baricon">
+						<span></span>
+						<span></span>
+						<span></span>
+					</span>
+				</a>
+
+				<!-- Header Title -->
+                <div class="page-title-box">
+					<h3>Offre</h3>
+                </div>
+				<!-- /Header Title -->
+
+				<a id="mobile_btn" (click)="togglesMobileSideBar()" class="mobile_btn" ><i class="fa-solid fa-bars"></i></a>
+
+				<!-- Header Menu -->
+				<ul class="nav user-menu">
+          	<!-- Search -->
+					<!-- <li class="nav-item">
+						<div class="top-nav-search">
+							<a href="javascript:void(0);" class="responsive-search">
+								<i class="fa-solid fa-magnifying-glass"></i>
+						   </a>
+							<form action="search.html">
+								<input class="form-control" type="text" placeholder="Search here">
+								<button class="btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+							</form>
+						</div>
+					</li> -->
+					<!-- /Search -->
+
+					<!-- Flag -->
+					<!-- <li class="nav-item dropdown has-arrow flag-nav">
+						<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">
+							<img src="assets/img/flags/us.png" alt="" height="20"> <span>English</span>
+						</a>
+						<div class="dropdown-menu dropdown-menu-right">
+							<a href="javascript:void(0);" class="dropdown-item">
+								<img src="assets/img/flags/us.png" alt="" height="16"> English
+							</a>
+							<a href="javascript:void(0);" class="dropdown-item">
+								<img src="assets/img/flags/fr.png" alt="" height="16"> French
+							</a>
+							<a href="javascript:void(0);" class="dropdown-item">
+								<img src="assets/img/flags/es.png" alt="" height="16"> Spanish
+							</a>
+							<a href="javascript:void(0);" class="dropdown-item">
+								<img src="assets/img/flags/de.png" alt="" height="16"> German
+							</a>
+						</div>
+					</li> -->
+					<!-- /Flag -->
+
+					<!-- Notifications -->
+					<li class="nav-item dropdown">
+						<a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown" (click)="deleteAll()">
+							<i class="fa-regular fa-bell me-1"></i> <span class="badge rounded-pill">{{notifications ? notifications.length : 0}}</span>
+						</a>
+						<div class="dropdown-menu notifications">
+							<div class="topnav-dropdown-header">
+								<span class="notification-title">Notifications</span>
+								<a href="javascript:void(0)" class="clear-noti"> Clear All </a>
+							</div>
+							<div class="noti-content">
+								<ul class="notification-list">
+									<li class="notification-message" *ngFor="let i of notifications">
+										<a href="javascript:void(0)">
+											<div class="media d-flex">
+
+												<div class="media-body flex-grow-1">
+													<p class="noti-details"><span class="noti-title">{{i.articleName}}</span> Alert : <span class="noti-title">La quantité est inférieur au 20 , il vous rest {{i.quantity}}</span></p>
+													<p class="noti-time"><span class="notification-time">{{i.localDateTime | date: 'dd/MM/yyyy HH:mm'}}</span></p>
+												</div>
+											</div>
+										</a>
+									</li>
+
+								</ul>
+							</div>
+
+						</div>
+					</li>
+					<!-- /Notifications -->
+
+
+					<!-- /Message Notifications -->
+
+					<li class="nav-item dropdown has-arrow main-drop">
+						<a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+							<span class="user-img me-2"><img src="assets/img/profiles/avatar-21.jpg" alt="">
+							<span class="status online"></span></span>
+							<span>{{role}}</span>
+						</a>
+						<div class="dropdown-menu">
+							<!-- <a class="dropdown-item" [routerLink]="'/employees/employee-profile'">My Profile</a> -->
+							<!-- <a class="dropdown-item" [routerLink]="'/settings/company-settings'">Settings</a> -->
+							<a class="dropdown-item" [routerLink]="'/user/change-password'">Change password</a>
+							<a class="dropdown-item" (click)="logout()">Logout</a>
+						</div>
+					</li>
+				</ul>
+				<!-- /Header Menu -->
+
+				<!-- Mobile Menu -->
+				<div class="dropdown mobile-user-menu">
+					<a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-ellipsis-vertical"></i></a>
+					<div class="dropdown-menu dropdown-menu-right">
+						<a class="dropdown-item" [routerLink]="'/employees/employee-profile'">My Profile</a>
+            <a class="dropdown-item" [routerLink]="'/settings/company-settings'">Change password</a>
+						<!-- <a class="dropdown-item" [routerLink]="'/settings/company-settings'">Settings</a> -->
+						<a class="dropdown-item" (click)="logout()">Logout</a>
+					</div>
+				</div>
+				<!-- /Mobile Menu -->
+
+            </div>
+			<!-- /Header -->

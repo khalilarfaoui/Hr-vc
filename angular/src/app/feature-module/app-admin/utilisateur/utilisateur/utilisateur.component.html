@@ -1,0 +1,504 @@
+<!-- Page Content -->
+<div
+  class="page-wrapper"
+  (resized)="onResize($event)"
+  [ngStyle]="{ height: innerHeight }"
+>
+  <div class="content container-fluid">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="row align-items-center">
+        <div class="col">
+          <h3 class="page-title">Utilisateurs</h3>
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a>Admin</a>
+            </li>
+            <li class="breadcrumb-item active">Utilisateurs</li>
+          </ul>
+        </div>
+        <div class="col-auto float-end ms-auto">
+          <a
+            href="#"
+            class="btn add-btn"
+            data-bs-toggle="modal"
+            data-bs-target="#add_user"
+            ><i class="fa-solid fa-plus"></i> Add Utilisateur</a
+          >
+        </div>
+      </div>
+    </div>
+    <!-- /Page Header -->
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="table_header">
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+              <div class="dataTables_length">
+                <label>
+                  Show
+                  <select
+                    [(ngModel)]="pageSize"
+                    (ngModelChange)="changePageSize()"
+                    class="form-control form-control-sm"
+                  >
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                  </select>
+                  Entries
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+              <div class="dataTables_filter">
+                <label>
+                  Search:
+                  <input
+                    [(ngModel)]="searchDataValue"
+                    (ngModelChange)="searchData(searchDataValue)"
+                    class="form-control form-control-sm"
+                  />
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table
+            matSort
+            (matSortChange)="sortData($event)"
+            class="table table-striped custom-table mb-0"
+          >
+            <thead>
+              <tr>
+                <th mat-sort-header="userName">Identifiant</th>
+                <th mat-sort-header="firstName">Prénom</th>
+                <th mat-sort-header="lastName">Nom</th>
+                <th mat-sort-header="role">Role</th>
+                <th class="text-end">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of lstUsers">
+                <td>{{ item.userName }}</td>
+                <td>{{ item.firstName }}</td>
+                <td>{{ item.lastName }}</td>
+                <td>{{ item.role }}</td>
+                <td class="text-end">
+                  <div class="dropdown dropdown-action">
+                    <a
+                      class="action-icon dropdown-toggle"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                      ><i class="material-icons">more_vert</i></a
+                    >
+                    <div class="dropdown-menu dropdown-menu-right">
+                      <a
+                        class="dropdown-item"
+                        data-bs-toggle="modal"
+                        (click)="loadDataToEdit(item)"
+                        data-bs-target="#edit_categories"
+                        ><i class="fa-solid fa-pencil m-r-5"></i> Edit</a
+                      >
+                      <a
+                        (click)="loadDataDelete(item.id)"
+                        class="dropdown-item"
+                        data-bs-toggle="modal"
+                        data-bs-target="#delete_category"
+                        ><i class="fa-regular fa-trash-can m-r-5"></i> Delete</a
+                      >
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr *ngIf="lstUsers.length === 0">
+                <td colspan="10">
+                  <h5 style="text-align: center">No data found</h5>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="table_footer">
+          <div class="col-sm-12 col-md-5">
+            <div class="dataTables_info">
+              Showing {{ serialNumberArray[0] }} to
+              {{ serialNumberArray[serialNumberArray.length - 1] }} of
+              {{ totalData }} entries
+            </div>
+          </div>
+
+          <div class="col-sm-12 col-md-7">
+            <div class="pagination_section">
+              <ul class="pagination">
+                <li
+                  class="page-item"
+                  [ngClass]="{
+                    disabled: currentPage == 1
+                  }"
+                >
+                  <a
+                    (click)="getMoreData('previous')"
+                    class="page-link"
+                    href="javascript:void(0);"
+                    tabindex="-1"
+                    >Previous</a
+                  >
+                </li>
+
+                <ng-container
+                  *ngFor="let item of pageNumberArray; let i = index"
+                >
+                  <li
+                    class="page-item"
+                    [class.active]="item === currentPage"
+                    [ngClass]="
+                      (pageNumberArray[currentPage - 2] > item &&
+                        item != 1 &&
+                        pageNumberArray.length > 6) ||
+                      (pageNumberArray[currentPage] < item &&
+                        item != 1 &&
+                        pageNumberArray.length > 6 &&
+                        pageNumberArray.length != item)
+                        ? 'hide-page-no'
+                        : 'show-page-no'
+                    "
+                  >
+                    <a
+                      (click)="moveToPage(item)"
+                      class="page-link"
+                      href="javascript:void(0);"
+                    >
+                      {{ item }}
+                    </a>
+                  </li>
+                  <li
+                    class="page-item"
+                    *ngIf="
+                      i == 0 && pageNumberArray.length > 6 && currentPage > 2
+                    "
+                    [hidden]="currentPage == 1"
+                    (click)="moveToPage(currentPage - 2)"
+                  >
+                    <a class="page-link" href="javascript:void(0);"> ... </a>
+                  </li>
+                  <li
+                    *ngIf="
+                      i == pageNumberArray.length - 2 &&
+                      pageNumberArray.length > 6
+                    "
+                    [hidden]="
+                      currentPage >=
+                        pageNumberArray[pageNumberArray.length - 2] ||
+                      totalData <
+                        serialNumberArray[serialNumberArray.length - 1]
+                    "
+                    class="page-item"
+                    (click)="moveToPage(currentPage + 2)"
+                  >
+                    <a class="page-link" href="javascript:void(0);"> ... </a>
+                  </li>
+                </ng-container>
+
+                <li
+                  class="page-item"
+                  [ngClass]="{
+                    disabled:
+                      currentPage ==
+                        pageNumberArray[pageNumberArray.length - 1] ||
+                      lstUsers.length == 0
+                  }"
+                >
+                  <a
+                    (click)="getMoreData('next')"
+                    class="page-link"
+                    href="javascript:void(0);"
+                    >Next
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /Page Content -->
+  <!-- Add Holiday Modal -->
+  <div id="add_user" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Add User</h5>
+          <button
+            type="button"
+            class="close"
+            #closeAdd
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="addUsersForm">
+            <!-- Username -->
+            <div class="form-group">
+              <label>Username <span class="text-danger">*</span></label>
+              <input
+                class="form-control"
+                type="text"
+                [class.invalid]="
+                  addUsersForm.get('userName').invalid &&
+                  addUsersForm.get('userName').touched
+                "
+                formControlName="userName"
+              />
+              <div
+                *ngIf="
+                  addUsersForm.get('userName').invalid &&
+                  addUsersForm.get('userName').touched
+                "
+              >
+                <small class="text-danger">*Username required</small>
+              </div>
+            </div>
+
+            <!-- First Name -->
+            <div class="form-group">
+              <label>First Name <span class="text-danger">*</span></label>
+              <input
+                class="form-control"
+                type="text"
+                [class.invalid]="
+                  addUsersForm.get('firstName').invalid &&
+                  addUsersForm.get('firstName').touched
+                "
+                formControlName="firstName"
+              />
+              <div
+                *ngIf="
+                  addUsersForm.get('firstName').invalid &&
+                  addUsersForm.get('firstName').touched
+                "
+              >
+                <small class="text-danger">*First Name required</small>
+              </div>
+            </div>
+
+            <!-- Last Name -->
+            <div class="form-group">
+              <label>Last Name <span class="text-danger">*</span></label>
+              <input
+                class="form-control"
+                type="text"
+                [class.invalid]="
+                  addUsersForm.get('lastName').invalid &&
+                  addUsersForm.get('lastName').touched
+                "
+                formControlName="lastName"
+              />
+              <div
+                *ngIf="
+                  addUsersForm.get('lastName').invalid &&
+                  addUsersForm.get('lastName').touched
+                "
+              >
+                <small class="text-danger">*Last Name required</small>
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">
+              <label>Email <span class="text-danger">*</span></label>
+              <input
+                class="form-control"
+                type="email"
+                [class.invalid]="
+                  addUsersForm.get('email').invalid &&
+                  addUsersForm.get('email').touched
+                "
+                formControlName="email"
+              />
+              <div
+                *ngIf="
+                  addUsersForm.get('email').invalid &&
+                  addUsersForm.get('email').touched
+                "
+              >
+                <small class="text-danger">*Email required</small>
+              </div>
+            </div>
+
+            <!-- Phone Number -->
+            <div class="form-group">
+              <label>Phone Number <span class="text-danger">*</span></label>
+              <input
+                class="form-control"
+                type="text"
+                [class.invalid]="
+                  addUsersForm.get('phoneNumber').invalid &&
+                  addUsersForm.get('phoneNumber').touched
+                "
+                formControlName="phoneNumber"
+              />
+              <div
+                *ngIf="
+                  addUsersForm.get('phoneNumber').invalid &&
+                  addUsersForm.get('phoneNumber').touched
+                "
+              >
+                <small class="text-danger">*Phone Number required</small>
+              </div>
+            </div>
+
+
+
+            <!-- Role -->
+            <div class="form-group">
+              <label>Role <span class="text-danger">*</span></label>
+              <select
+                class="form-control"
+                [class.invalid]="
+                  addUsersForm.get('role').invalid &&
+                  addUsersForm.get('role').touched
+                "
+                formControlName="role"
+              >
+                <option value="">Select Role</option>
+                <option value="RESPONSABLE">RESPONSABLE</option>
+                <option value="CONDICAT">CONDICAT</option>
+                <!-- Add more roles as needed -->
+              </select>
+              <div
+                *ngIf="
+                  addUsersForm.get('role').invalid &&
+                  addUsersForm.get('role').touched
+                "
+              >
+                <small class="text-danger">*Role required</small>
+              </div>
+            </div>
+
+            <!-- Creation Date -->
+
+
+            <!-- Submit Button -->
+            <div class="submit-section">
+              <button class="btn btn-primary submit-btn" (click)="onSubmit()">
+                Submit
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- /Add Holiday Modal -->
+
+  <!-- Add Holiday Modal -->
+  <!-- <div
+    id="edit_categories"
+    class="modal custom-modal fade"
+    id="edit_categories"
+    role="dialog"
+  >
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Categories</h5>
+          <button
+            type="button"
+            class="close"
+            #closeEdit
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="editCategoriesForm">
+            <div class="form-group">
+              <label>Categories Name <span class="text-danger">*</span></label>
+              <input
+                class="form-control"
+                type="text"
+                value="Hardware"
+                [class.invalid]="
+                  editCategoriesForm.get('name').invalid &&
+                  editCategoriesForm.get('name').touched
+                "
+                formControlName="name"
+              />
+              <div
+                *ngIf="
+                  editCategoriesForm.get('name').invalid &&
+                  editCategoriesForm.get('name').touched
+                "
+              >
+                <small
+                  *ngIf="
+                    editCategoriesForm.get('name').invalid &&
+                    editCategoriesForm.get('name').touched
+                  "
+                  class="text-danger"
+                >
+                  *Categories Name required</small
+                >
+              </div>
+            </div>
+
+            <div class="submit-section">
+              <button
+                class="btn btn-primary submit-btn"
+                (click)="onSubmitEdit()"
+              >
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div> -->
+</div>
+
+<!-- /Add Holiday Modal -->
+<div class="modal custom-modal fade" id="delete_category" role="dialog">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="form-header">
+          <h3>Delete category</h3>
+          <p>Are you sure want to delete?</p>
+        </div>
+        <div class="modal-btn delete-action">
+          <div class="row">
+            <div class="col-6">
+              <a class="btn btn-primary continue-btn" (click)="delete()"
+                >Delete</a
+              >
+            </div>
+            <div class="col-6">
+              <a
+                data-bs-dismiss="modal"
+                #closeModelDelete
+                class="btn btn-primary cancel-btn"
+                >Cancel</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
