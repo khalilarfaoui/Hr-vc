@@ -4,5 +4,5 @@ public enum Role {
 
     ADMIN ,
     RESPONSABLE,
-    CONDIDAT
+    CANDIDAT
 }
