@@ -46,7 +46,7 @@ export class SideMenuOneComponent implements OnInit {
       });
     }
 
-    else if (this.role == 'CONDIDAT') {
+    else if (this.role == 'CANDIDAT') {
       this.data.getSideBarCondidatData.subscribe((res: any) => {
         this.side_bar_data = res;
       });

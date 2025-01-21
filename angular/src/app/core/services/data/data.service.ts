@@ -1394,7 +1394,7 @@ export class DataService {
 
   public sideBarCondidat: any = [
     {
-      tittle: 'Condidat',
+      tittle: 'Candidat',
       icon: 'layers',
       showAsTab: false,
       separateRoute: false,
@@ -1419,6 +1419,16 @@ export class DataService {
           showSubRoute: false,
           icon: 'comment',
           base: 'messages',
+          materialicons: 'person',
+          subMenus: [],
+        },
+        {
+          menuValue: 'Recalmation',
+          route: '/recalamtion/reclamtion-page',
+          hasSubRoute: false,
+          showSubRoute: false,
+          icon: 'box',
+          base: 'recalamtion',
           materialicons: 'person',
           subMenus: [],
         },
@@ -1516,6 +1526,16 @@ export class DataService {
           showSubRoute: false,
           icon: 'user',
           base: 'user',
+          materialicons: 'person',
+          subMenus: [],
+        },
+        {
+          menuValue: 'Recalmation',
+          route: '/recalamtion-admin/reclamtion-admin',
+          hasSubRoute: false,
+          showSubRoute: false,
+          icon: 'box',
+          base: 'recalamtion',
           materialicons: 'person',
           subMenus: [],
         },

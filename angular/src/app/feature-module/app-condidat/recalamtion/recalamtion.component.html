@@ -9,12 +9,12 @@
     <div class="page-header">
       <div class="row align-items-center">
         <div class="col">
-          <h3 class="page-title">Users</h3>
+          <h3 class="page-title">Reclamtion</h3>
           <ul class="breadcrumb">
             <li class="breadcrumb-item">
-              <a>Admin</a>
+              <a>Candidat</a>
             </li>
-            <li class="breadcrumb-item active">Users</li>
+            <li class="breadcrumb-item active">Reclamtion</li>
           </ul>
         </div>
         <div class="col-auto float-end ms-auto">
@@ -22,8 +22,8 @@
             href="#"
             class="btn add-btn"
             data-bs-toggle="modal"
-            data-bs-target="#add_user"
-            ><i class="fa-solid fa-plus"></i> Add Responsable</a
+            data-bs-target="#add_reclamtion"
+            ><i class="fa-solid fa-plus"></i> Add reclamtion</a
           >
         </div>
       </div>
@@ -77,19 +77,15 @@
           >
             <thead>
               <tr>
-                <th mat-sort-header="userName">Id</th>
-                <th mat-sort-header="firstName">First name</th>
-                <th mat-sort-header="lastName">Last name</th>
-                <th mat-sort-header="role">Role</th>
+                <th mat-sort-header="id">#</th>
+                <th mat-sort-header="message">Message</th>
                 <th class="text-end">Action</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let item of lstUsers">
-                <td>{{ item.userName }}</td>
-                <td>{{ item.firstName }}</td>
-                <td>{{ item.lastName }}</td>
-                <td>{{ item.role }}</td>
+              <tr *ngFor="let item of lstreclamations">
+                <td>{{ item.id }}</td>
+                <td>{{ item.message }}</td>
                 <td class="text-end">
                   <div class="dropdown dropdown-action">
                     <a
@@ -103,21 +99,21 @@
                         class="dropdown-item"
                         data-bs-toggle="modal"
                         (click)="loadDataToEdit(item)"
-                        data-bs-target="#edit_categories"
+                        data-bs-target="#edit_reclamtion"
                         ><i class="fa-solid fa-pencil m-r-5"></i> Edit</a
                       >
                       <a
                         (click)="loadDataDelete(item.id)"
                         class="dropdown-item"
                         data-bs-toggle="modal"
-                        data-bs-target="#delete_category"
-                        ><i class="fa-regular fa-trash-can m-r-5"></i> Archive</a
+                        data-bs-target="#delete_reclamation"
+                        ><i class="fa-regular fa-trash-can m-r-5"></i> Delete</a
                       >
                     </div>
                   </div>
                 </td>
               </tr>
-              <tr *ngIf="lstUsers.length === 0">
+              <tr *ngIf="lstreclamations.length === 0">
                 <td colspan="10">
                   <h5 style="text-align: center">No data found</h5>
                 </td>
@@ -212,7 +208,7 @@
                     disabled:
                       currentPage ==
                         pageNumberArray[pageNumberArray.length - 1] ||
-                      lstUsers.length == 0
+                        lstreclamations.length == 0
                   }"
                 >
                   <a
@@ -231,11 +227,16 @@
   </div>
   <!-- /Page Content -->
   <!-- Add Holiday Modal -->
-  <div id="add_user" class="modal custom-modal fade" role="dialog">
+  <div
+    id="add_reclamtion"
+    class="modal custom-modal fade"
+    id="add_reclamtion"
+    role="dialog"
+  >
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Add User</h5>
+          <h5 class="modal-title">Add reclamtion</h5>
           <button
             type="button"
             class="close"
@@ -247,174 +248,59 @@
           </button>
         </div>
         <div class="modal-body">
-          <form [formGroup]="addUsersForm">
-            <!-- Username -->
+          <form [formGroup]="addreclamationsForm">
+
             <div class="form-group">
-              <label>Username <span class="text-danger">*</span></label>
-              <input
-                class="form-control"
-                type="text"
-                [class.invalid]="
-                  addUsersForm.get('userName').invalid &&
-                  addUsersForm.get('userName').touched
-                "
-                formControlName="userName"
-              />
+              <label>Message <span class="text-danger">*</span></label>
+
+              <textarea   class="form-control"
+              type="text"
+              [class.invalid]="
+                addreclamationsForm.get('message').invalid &&
+                addreclamationsForm.get('message').touched
+              "
+              formControlName="message" id="" cols="30" rows="10"></textarea>
               <div
                 *ngIf="
-                  addUsersForm.get('userName').invalid &&
-                  addUsersForm.get('userName').touched
+                  addreclamationsForm.get('message').invalid &&
+                  addreclamationsForm.get('message').touched
                 "
               >
-                <small class="text-danger">*Username required</small>
+                <small
+                  *ngIf="
+                    addreclamationsForm.get('message').invalid &&
+                    addreclamationsForm.get('message').touched
+                  "
+                  class="text-danger"
+                >
+                  *reclamtion message required</small
+                >
               </div>
             </div>
 
-            <!-- First Name -->
-            <div class="form-group">
-              <label>First Name <span class="text-danger">*</span></label>
-              <input
-                class="form-control"
-                type="text"
-                [class.invalid]="
-                  addUsersForm.get('firstName').invalid &&
-                  addUsersForm.get('firstName').touched
-                "
-                formControlName="firstName"
-              />
-              <div
-                *ngIf="
-                  addUsersForm.get('firstName').invalid &&
-                  addUsersForm.get('firstName').touched
-                "
-              >
-                <small class="text-danger">*First Name required</small>
-              </div>
-            </div>
-
-            <!-- Last Name -->
-            <div class="form-group">
-              <label>Last Name <span class="text-danger">*</span></label>
-              <input
-                class="form-control"
-                type="text"
-                [class.invalid]="
-                  addUsersForm.get('lastName').invalid &&
-                  addUsersForm.get('lastName').touched
-                "
-                formControlName="lastName"
-              />
-              <div
-                *ngIf="
-                  addUsersForm.get('lastName').invalid &&
-                  addUsersForm.get('lastName').touched
-                "
-              >
-                <small class="text-danger">*Last Name required</small>
-              </div>
-            </div>
-
-            <!-- Email -->
-            <div class="form-group">
-              <label>Email <span class="text-danger">*</span></label>
-              <input
-                class="form-control"
-                type="email"
-                [class.invalid]="
-                  addUsersForm.get('email').invalid &&
-                  addUsersForm.get('email').touched
-                "
-                formControlName="email"
-              />
-              <div
-                *ngIf="
-                  addUsersForm.get('email').invalid &&
-                  addUsersForm.get('email').touched
-                "
-              >
-                <small class="text-danger">*Email required</small>
-              </div>
-            </div>
-
-            <!-- Phone Number -->
-            <div class="form-group">
-              <label>Phone Number <span class="text-danger">*</span></label>
-              <input
-                class="form-control"
-                type="text"
-                [class.invalid]="
-                  addUsersForm.get('phoneNumber').invalid &&
-                  addUsersForm.get('phoneNumber').touched
-                "
-                formControlName="phoneNumber"
-              />
-              <div
-                *ngIf="
-                  addUsersForm.get('phoneNumber').invalid &&
-                  addUsersForm.get('phoneNumber').touched
-                "
-              >
-                <small class="text-danger">*Phone Number required</small>
-              </div>
-            </div>
-
-
-
-            <!-- Role -->
-            <div class="form-group">
-              <label>Role <span class="text-danger">*</span></label>
-              <select
-                class="form-control"
-                [class.invalid]="
-                  addUsersForm.get('role').invalid &&
-                  addUsersForm.get('role').touched
-                "
-                formControlName="role"
-              >
-
-                <option value="RESPONSABLE">RESPONSABLE</option>
-
-                <!-- Add more roles as needed -->
-              </select>
-              <div
-                *ngIf="
-                  addUsersForm.get('role').invalid &&
-                  addUsersForm.get('role').touched
-                "
-              >
-                <small class="text-danger">*Role required</small>
-              </div>
-            </div>
-
-            <!-- Creation Date -->
-
-
-            <!-- Submit Button -->
             <div class="submit-section">
               <button class="btn btn-primary submit-btn" (click)="onSubmit()">
                 Submit
               </button>
             </div>
-
           </form>
         </div>
       </div>
     </div>
   </div>
-
   <!-- /Add Holiday Modal -->
 
   <!-- Add Holiday Modal -->
-  <!-- <div
-    id="edit_categories"
+  <div
+    id="edit_reclamtion"
     class="modal custom-modal fade"
-    id="edit_categories"
+    id="edit_reclamtion"
     role="dialog"
   >
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Edit Categories</h5>
+          <h5 class="modal-title">Edit reclamtion</h5>
           <button
             type="button"
             class="close"
@@ -426,33 +312,31 @@
           </button>
         </div>
         <div class="modal-body">
-          <form [formGroup]="editCategoriesForm">
+          <form [formGroup]="editreclamationsForm">
             <div class="form-group">
-              <label>Categories Name <span class="text-danger">*</span></label>
-              <input
-                class="form-control"
-                type="text"
-                value="Hardware"
-                [class.invalid]="
-                  editCategoriesForm.get('name').invalid &&
-                  editCategoriesForm.get('name').touched
-                "
-                formControlName="name"
-              />
+              <label>Message <span class="text-danger">*</span></label>
+
+              <textarea   class="form-control"
+              type="text"
+              [class.invalid]="
+                editreclamationsForm.get('message').invalid &&
+                editreclamationsForm.get('message').touched
+              "
+              formControlName="message" id="" cols="30" rows="10"></textarea>
               <div
                 *ngIf="
-                  editCategoriesForm.get('name').invalid &&
-                  editCategoriesForm.get('name').touched
+                  editreclamationsForm.get('message').invalid &&
+                  editreclamationsForm.get('message').touched
                 "
               >
                 <small
                   *ngIf="
-                    editCategoriesForm.get('name').invalid &&
-                    editCategoriesForm.get('name').touched
+                    editreclamationsForm.get('message').invalid &&
+                    editreclamationsForm.get('message').touched
                   "
                   class="text-danger"
                 >
-                  *Categories Name required</small
+                  *reclamtion message required</small
                 >
               </div>
             </div>
@@ -469,16 +353,16 @@
         </div>
       </div>
     </div>
-  </div> -->
+  </div>
 </div>
 
 <!-- /Add Holiday Modal -->
-<div class="modal custom-modal fade" id="delete_category" role="dialog">
+<div class="modal custom-modal fade" id="delete_reclamation" role="dialog">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-body">
         <div class="form-header">
-          <h3>Delete category</h3>
+          <h3>Delete reclamation</h3>
           <p>Are you sure want to delete?</p>
         </div>
         <div class="modal-btn delete-action">

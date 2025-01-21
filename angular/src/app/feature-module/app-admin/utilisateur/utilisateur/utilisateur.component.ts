@@ -66,7 +66,7 @@ export class UtilisateurComponent {
       userName: ['', [Validators.required]],
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
-      role: ['', [Validators.required]],
+      role: ['RESPONSABLE', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       phoneNumber: ['', [Validators.required, Validators.pattern('^\\+?[0-9]*$')]],  // Add a pattern for phone numbers if needed
       password: ['', [Validators.required, Validators.minLength(6)]],

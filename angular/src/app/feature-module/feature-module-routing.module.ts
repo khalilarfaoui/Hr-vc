@@ -1,3 +1,4 @@
+import { ReclamationAdminModule } from './app-admin/reclamation-admin/reclamation-admin.module';
 import { UtilisateurModule } from './app-admin/utilisateur/utilisateur.module';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -18,6 +19,16 @@ const routes: Routes = [
         path: 'categories',
         loadChildren: () =>
         import('./app-responsable/categories/categories.module').then((m) => m.CategoriesModule)
+      },
+      {
+        path: 'recalamtion',
+        loadChildren: () =>
+        import('./app-condidat/recalamtion/recalamtion.module').then((m) => m.RecalamtionModule)
+      },
+      {
+        path: 'recalamtion-admin',
+        loadChildren: () =>
+        import('./app-admin/reclamation-admin/reclamation-admin.module').then((m) => m.ReclamationAdminModule)
       },
       {
         path: 'postulation',

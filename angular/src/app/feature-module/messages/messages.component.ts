@@ -51,8 +51,14 @@ export class MessagesComponent {
       console.log(this.users);
 
       this.users = this.users.filter((i: any) => {
-        return i.id !== this.me.id
+        return i.id !== this.me.id && i.role !== 'ADMIN'
       })
+      const role = localStorage.getItem("role")
+      if(role == "CANDIDAT"){
+        this.users = this.users.filter((i: any) => {
+          return i.role == 'RESPONSABLE'
+        })
+      }
     })
   }
 

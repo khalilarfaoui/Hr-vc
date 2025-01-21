@@ -1,3 +1,4 @@
+import { UserService } from './../../../core/services/user/user.service';
 import { Component, NgZone, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -15,14 +16,17 @@ import Swal from 'sweetalert2';
 export class PostulerComponent implements OnInit {
   offre: OffreEmploi | null = null;
   postulerForm: FormGroup;
+  idUser = localStorage.getItem("id")
   selectedFile: File | null = null;
+  data:any
   constructor(
     private ngZone: NgZone,
     private route: ActivatedRoute,
     private offreEmploiService: OffreService,
     private postulerService : PostulerService,
     private fb: FormBuilder,
-    private router : Router
+    private router : Router,
+    private userService : UserService
   ) {
     this.postulerForm = this.fb.group({
       nom: ['', Validators.required],
@@ -42,6 +46,16 @@ export class PostulerComponent implements OnInit {
     this.offreEmploiService.getOffres().subscribe((offres) => {
       this.offre = offres.find((o) => o.id === id) || null;
     });
+    this.userService.getUserById(this.idUser).subscribe(res=>{
+      console.log(res);
+      this.data = res
+      this.postulerForm.patchValue({
+        email : this.data.email ,
+        nom : this.data.firstName + " "+ this.data.lastName ,
+
+      })
+    })
+
   }
   public innerHeight: any;
   getScreenHeight() {
