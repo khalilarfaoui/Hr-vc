@@ -1,31 +1,25 @@
-package feriel.offre.portail.entity;
+package feriel.offre.portail.entity.dto;
 
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import feriel.offre.portail.entity.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@Entity
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Reclamation {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class ReclamationDto {
+
     Long id;
 
     private String name;
     private String message;
     private String email ;
     private Long idUser ;
-    private Status status ;
+    private String status ;
 
     private LocalDateTime localDateTime;
+    private String text ;
 }

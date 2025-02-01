@@ -12,7 +12,7 @@
           <h3 class="page-title">Offres</h3>
           <ul class="breadcrumb">
             <li class="breadcrumb-item">
-              <a>Responsable</a>
+              <a>HR Officer</a>
             </li>
             <li class="breadcrumb-item active">Offres</li>
           </ul>
@@ -78,12 +78,12 @@
             <thead>
               <tr>
                 <th mat-sort-header="id">#</th>
-                <th mat-sort-header="titre">Titre</th>
+                <th mat-sort-header="titre">Job Title</th>
                 <th mat-sort-header="description">Description</th>
                 <th mat-sort-header="entreprise">Entreprise</th>
-                <th mat-sort-header="localisation">Localisation</th>
-                <th mat-sort-header="salaire">Salaire</th>
-                <th mat-sort-header="typeContrat">Type de Contrat</th>
+                <th mat-sort-header="localisation">Location</th>
+                <th mat-sort-header="salaire">Salairy</th>
+                <th mat-sort-header="typeContrat">Contrat</th>
                 <th class="text-end">Action</th>
               </tr>
             </thead>
@@ -172,7 +172,7 @@
       <div class="modal-body">
         <form [formGroup]="addOffreForm">
           <div class="form-group">
-            <label>Titre <span class="text-danger">*</span></label>
+            <label>Title <span class="text-danger">*</span></label>
             <input class="form-control" type="text" formControlName="titre" />
           </div>
           <div class="form-group">
@@ -191,7 +191,7 @@
             />
           </div>
           <div class="form-group">
-            <label>Localisation <span class="text-danger">*</span></label>
+            <label>Location <span class="text-danger">*</span></label>
             <input
               class="form-control"
               type="text"
@@ -199,7 +199,7 @@
             />
           </div>
           <div class="form-group">
-            <label>Salaire <span class="text-danger">*</span></label>
+            <label>Salairy <span class="text-danger">*</span></label>
             <input
               class="form-control"
               type="number"
@@ -207,9 +207,9 @@
             />
           </div>
           <div class="form-group">
-            <label>Type de Contrat <span class="text-danger">*</span></label>
+            <label>Contrat <span class="text-danger">*</span></label>
             <select class="form-control" formControlName="typeContrat">
-              <option value="">Sélectionnez le type de contrat</option>
+              <option value="">Select one</option>
               <option value="CDD">CDD</option>
               <option value="CDI">CDI</option>
               <option value="FREELANCE">Freelance</option>
@@ -251,7 +251,7 @@
       <div class="modal-body">
         <form [formGroup]="editOffreForm">
           <div class="form-group">
-            <label>Titre <span class="text-danger">*</span></label>
+            <label>Job Title <span class="text-danger">*</span></label>
             <input class="form-control" type="text" formControlName="titre" />
           </div>
           <div class="form-group">
@@ -270,7 +270,7 @@
             />
           </div>
           <div class="form-group">
-            <label>Localisation <span class="text-danger">*</span></label>
+            <label>Location <span class="text-danger">*</span></label>
             <input
               class="form-control"
               type="text"
@@ -278,7 +278,7 @@
             />
           </div>
           <div class="form-group">
-            <label>Salaire <span class="text-danger">*</span></label>
+            <label>Salairy <span class="text-danger">*</span></label>
             <input
               class="form-control"
               type="number"
@@ -286,9 +286,9 @@
             />
           </div>
           <div class="form-group">
-            <label>Type de Contrat <span class="text-danger">*</span></label>
+            <label>Contrat <span class="text-danger">*</span></label>
             <select class="form-control" formControlName="typeContrat">
-              <option value="">Sélectionnez le type de contrat</option>
+              <option value="">Select one</option>
               <option value="CDD">CDD</option>
               <option value="CDI">CDI</option>
               <option value="FREELANCE">Freelance</option>

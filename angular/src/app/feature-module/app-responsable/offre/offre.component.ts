@@ -12,7 +12,7 @@ import { CategoriesService } from 'src/app/core/services/categories/categories.s
   styleUrls: ['./offre.component.css']
 })
 export class OffreComponent implements OnInit {
-
+  id = localStorage.getItem('id')
   @ViewChild('closeAdd') closeAdd!: ElementRef;
   @ViewChild('closeEdit') closeEdit!: ElementRef;
   @ViewChild('closeModelDelete') closeModelDelete!: ElementRef;
@@ -63,6 +63,7 @@ export class OffreComponent implements OnInit {
       salaire: ['', [Validators.required]],
       typeContrat: ['', [Validators.required]],
       categoryId: ['', [Validators.required]],
+      addedBy : [this.id],
     });
 
     this.editOffreForm = this.formBuilder.group({

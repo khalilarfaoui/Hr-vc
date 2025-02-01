@@ -112,7 +112,7 @@ export class RecalamtionComponent implements OnInit {
 
    onSubmitEdit() {
      this.reclamationsService
-       .updateReclamation(this.editreclamationsForm.value.id , this.editreclamationsForm.value)
+       .updateSimpleReclamation(this.editreclamationsForm.value.id , this.editreclamationsForm.value)
        .subscribe((res) => {
          Swal.fire({
            position: 'top-end',
@@ -132,6 +132,7 @@ export class RecalamtionComponent implements OnInit {
      this.editreclamationsForm.patchValue({
        id: data.id,
        name: data.name,
+       message: data.message,
      });
    }
 
@@ -160,6 +161,8 @@ export class RecalamtionComponent implements OnInit {
      this.serialNumberArray = [];
 
      this.reclamationsService.getReclamationById().subscribe((res: any) => {
+      console.log(res);
+
        this.totalData = res.length;
        res.map((res: any, index: number) => {
          let serialNumber = index + 1;

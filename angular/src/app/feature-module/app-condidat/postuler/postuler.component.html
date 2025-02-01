@@ -13,7 +13,7 @@
             <li class="breadcrumb-item">
               <a>Candidat</a>
             </li>
-            <li class="breadcrumb-item active">Offre</li>
+            <li class="breadcrumb-item active"></li>
           </ul>
         </div>
         <!-- <div class="col-auto float-end ms-auto">
@@ -34,12 +34,12 @@
         <div class="container mt-4" *ngIf="offre">
           <div class="card shadow-sm">
             <div class="card-header">
-              <h4>Postuler pour l'offre: {{ offre.titre }}</h4>
+              <h4>Offre: {{ offre.titre }}</h4>
             </div>
             <div class="card-body">
               <form [formGroup]="postulerForm" (ngSubmit)="postuler()">
                 <div class="form-group">
-                  <label for="nom">Nom</label>
+                  <label for="nom">Name</label>
                   <input id="nom" formControlName="nom" class="form-control" type="text">
                 </div>
                 <div class="form-group">
@@ -51,7 +51,7 @@
                   <textarea id="message" formControlName="message" class="form-control"></textarea>
                 </div>
                 <div class="form-group">
-                  <label for="cv">CV</label>
+                  <label for="cv">CV *</label>
                   <input
                     id="cv"
                     class="form-control"

@@ -27,7 +27,8 @@ public class OffreEmploiService {
         offreEmploi.setTitre(offre.getTitre());
         offreEmploi.setTypeContrat(offre.getTypeContrat());
         offreEmploi.setLocalisation(offre.getLocalisation());
-
+        offreEmploi.setEntreprise(offre.getEntreprise());
+        offreEmploi.setAddedBy(offre.getAddedBy());
         Optional<Category> category = categoryRepository.findById(offre.getCategoryId());
 
         offreEmploi.setCategory(category.get());

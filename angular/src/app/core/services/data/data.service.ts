@@ -1330,7 +1330,7 @@ export class DataService {
   ];
   public sideBarResponsable: any = [
     {
-      tittle: 'Responsable',
+      tittle: 'HR Officer',
       icon: 'layers',
       showAsTab: false,
       separateRoute: false,
@@ -1394,7 +1394,7 @@ export class DataService {
 
   public sideBarCondidat: any = [
     {
-      tittle: 'Candidat',
+      tittle: 'Candidates',
       icon: 'layers',
       showAsTab: false,
       separateRoute: false,
@@ -1520,7 +1520,7 @@ export class DataService {
       separateRoute: false,
       menu: [
         {
-          menuValue: 'Utilisateurs',
+          menuValue: 'Users',
           route: '/user/user-page',
           hasSubRoute: false,
           showSubRoute: false,

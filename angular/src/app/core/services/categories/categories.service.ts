@@ -3,13 +3,12 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CategoriesService {
-
   private apiUrl = 'http://localhost:8081/categories';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getAllCategories(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl);
@@ -31,14 +30,13 @@ export class CategoriesService {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
-  getNbArticleByCategory(){
-    return this.http.get('http://localhost:8081/categories/article/counts')
+  getNbArticleByCategory() {
+    return this.http.get('http://localhost:8081/categories/article/counts');
   }
-
 
   public message = {
-    create : "Catégorie crée avec succès." ,
-    update : "Catégorie mise à jour avec succès.",
-    delete : "Catégorie supprimée avec succès"
-  }
+    create: 'Category created successfully.',
+    update: 'Category updated successfully.',
+    delete: 'Category deleted successfully.',
+  };
 }

@@ -19,6 +19,7 @@ public class OffreEmploi {
     private String localisation;
     private Double salaire;
     private TypeContrat typeContrat;
+    private long addedBy ;
     @ManyToOne
     private Category category ;
 

@@ -17,7 +17,6 @@
             <li class="breadcrumb-item active">Reclamtion</li>
           </ul>
         </div>
-
       </div>
     </div>
     <!-- /Page Header -->
@@ -72,7 +71,8 @@
                 <th mat-sort-header="id">#</th>
                 <th mat-sort-header="name">Name</th>
                 <th mat-sort-header="message">Message</th>
-                <!-- <th class="text-end">Action</th> -->
+                <th mat-sort-header="status">Status</th>
+                <th class="text-start">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -80,7 +80,26 @@
                 <td>{{ item.id }}</td>
                 <td>{{ item.name }}</td>
                 <td>{{ item.message }}</td>
-
+                <td >{{ item.status }}</td>
+                <td *ngIf="item.status !== 'PENDING'">Processed</td>
+                <td >
+                  <button *ngIf="item.status == 'PENDING'"
+                    class="btn btn-primary m-1"
+                    (click)="onEditStatus(item, 'IN_PROGRESS')"
+                  >
+                    IN PROGRESS
+                  </button>
+                  <button
+                    class="btn btn-success m-1"
+                    data-bs-toggle="modal"
+                    data-bs-target="#add_reclamtion"
+                    (click)="selectedResolve(item)"
+                    *ngIf="item.status == 'PENDING' || item.status == 'IN_PROGRESS' "
+                  >
+                    RESOLVED
+                  </button>
+                  <button   *ngIf="item.status == 'PENDING'" class="btn btn-danger m-1"  (click)="onEditStatus(item, 'RESOLVED')">REJECTED</button>
+                </td>
               </tr>
               <tr *ngIf="lstreclamations.length === 0">
                 <td colspan="10">
@@ -177,7 +196,7 @@
                     disabled:
                       currentPage ==
                         pageNumberArray[pageNumberArray.length - 1] ||
-                        lstreclamations.length == 0
+                      lstreclamations.length == 0
                   }"
                 >
                   <a
@@ -194,7 +213,68 @@
       </div>
     </div>
   </div>
-
 </div>
 
+<div
+  id="add_reclamtion"
+  class="modal custom-modal fade"
+  id="add_reclamtion"
+  role="dialog"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Response</h5>
+        <button
+          type="button"
+          class="close"
+          #closeAdd
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="addreclamationsForm">
+          <div class="form-group">
+            <label>Message <span class="text-danger">*</span></label>
 
+            <textarea
+              class="form-control"
+              type="text"
+              [class.invalid]="
+                addreclamationsForm.get('message').invalid &&
+                addreclamationsForm.get('message').touched
+              "
+              formControlName="message"
+              id=""
+              cols="30"
+              rows="10"
+            ></textarea>
+            <div
+              *ngIf="
+                addreclamationsForm.get('message').invalid &&
+                addreclamationsForm.get('message').touched
+              "
+            >
+              <small
+                *ngIf="
+                  addreclamationsForm.get('message').invalid &&
+                  addreclamationsForm.get('message').touched
+                "
+                class="text-danger"
+              >
+                *reclamtion message required</small
+              >
+            </div>
+          </div>
+
+          <div class="submit-section">
+            <button class="btn btn-primary submit-btn" (click)="onSubmitEmail()">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

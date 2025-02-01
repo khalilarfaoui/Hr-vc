@@ -1,7 +1,9 @@
-import { Component, NgZone } from '@angular/core';
+import { Component, ElementRef, NgZone, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { OffreService } from 'src/app/core/services/offre/offre.service';
 import { PostulerService } from 'src/app/core/services/postuler/postuler.service';
+import { ReclamationService } from 'src/app/core/services/reclamation.service';
 
 @Component({
   selector: 'app-postulation-list',
@@ -11,11 +13,16 @@ import { PostulerService } from 'src/app/core/services/postuler/postuler.service
 export class PostulationListComponent {
   offres: any[] = [];
   selectedCvUrl: any;
+
+  @ViewChild('closeAdd') closeAdd!: ElementRef;
+  public addOffreForm: FormGroup | any;
   constructor(
     private ngZone: NgZone,
     private offreService: OffreService,
     private sanitizer: DomSanitizer,
-    private postulationService : PostulerService
+    private postulationService: PostulerService,
+    private formBuilder: FormBuilder,
+    private reclamationsService: ReclamationService
   ) {
     window.onresize = (e) => {
       this.ngZone.run(() => {
@@ -27,13 +34,35 @@ export class PostulationListComponent {
 
   ngOnInit(): void {
     this.loadOffres();
+
+    this.addOffreForm = this.formBuilder.group({
+      text: ['', [Validators.required]],
+      email: ['', [Validators.required]],
+    });
+  }
+  selectedOffre: any;
+  onSelectedOffre(data: any) {
+    this.selectedOffre = data;
+  }
+
+  response() {
+    this.addOffreForm.patchValue({
+      email: this.selectedOffre.email,
+    });
+
+    console.log(this.addOffreForm.value);
+    this.reclamationsService
+      .sendEmail(this.addOffreForm.value)
+      .subscribe((res) => {
+        this.closeAdd.nativeElement.click();
+        this.addOffreForm.reset()
+      });
   }
 
   loadOffres(): void {
     this.postulationService.getOffres().subscribe((data) => {
       this.offres = data;
       console.log(data);
-
     });
   }
 

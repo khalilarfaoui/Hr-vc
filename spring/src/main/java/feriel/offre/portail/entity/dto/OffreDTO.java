@@ -19,4 +19,5 @@ public class OffreDTO {
     private Double salaire;
     private TypeContrat typeContrat;
     private Long categoryId ;
+    private Long addedBy ;
 }

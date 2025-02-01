@@ -16,7 +16,6 @@
             <li class="breadcrumb-item active">Postulations</li>
           </ul>
         </div>
-
       </div>
     </div>
     <!-- /Page Header -->
@@ -40,10 +39,21 @@
               <td>{{ offre.email }}</td>
               <td>{{ offre.message }}</td>
               <td>
-
-
                 <!-- Bouton pour télécharger le CV -->
-                <button class="btn btn-secondary" (click)="downloadCv(offre.cvPath)">Télécharger</button>
+                <button
+                  class="btn btn-secondary"
+                  (click)="downloadCv(offre.cvPath)"
+                >
+                  Télécharger
+                </button>
+                <button
+                  class="btn btn-success m-2"
+                  data-bs-toggle="modal"
+                  data-bs-target="#add_offres"
+                  (click)="onSelectedOffre(offre)"
+                >
+                  Response
+                </button>
               </td>
             </tr>
           </tbody>
@@ -55,15 +65,67 @@
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title">CV PDF</h5>
-                <button type="button" class="btn-close" (click)="closeModal()"></button>
+                <button
+                  type="button"
+                  class="btn-close"
+                  (click)="closeModal()"
+                ></button>
               </div>
               <div class="modal-body">
-                <iframe [src]="selectedCvUrl | safeUrl" width="100%" height="500px"></iframe>
+                <iframe
+                  [src]="selectedCvUrl | safeUrl"
+                  width="100%"
+                  height="500px"
+                ></iframe>
               </div>
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div
+  id="add_reclamtion"
+  class="modal custom-modal fade"
+  id="add_offres"
+  role="dialog"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Response</h5>
+        <button
+          type="button"
+          class="close"
+          #closeAdd
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="addOffreForm">
+          <div class="form-group">
+            <label>Message <span class="text-danger">*</span></label>
+            <textarea
+              class="form-control"
+              type="text"
+              formControlName="text"
+              id=""
+              cols="30"
+              rows="10"
+            ></textarea>
+            <div>
+              <small class="text-danger"> *Reclamtion message required</small>
+            </div>
+          </div>
 
+          <div class="submit-section">
+            <button class="btn btn-primary submit-btn" (click)="response()">Submit</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>

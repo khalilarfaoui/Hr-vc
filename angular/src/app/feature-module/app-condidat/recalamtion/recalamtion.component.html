@@ -79,6 +79,7 @@
               <tr>
                 <th mat-sort-header="id">#</th>
                 <th mat-sort-header="message">Message</th>
+                <th mat-sort-header="status">Status</th>
                 <th class="text-end">Action</th>
               </tr>
             </thead>
@@ -86,7 +87,9 @@
               <tr *ngFor="let item of lstreclamations">
                 <td>{{ item.id }}</td>
                 <td>{{ item.message }}</td>
-                <td class="text-end">
+                <td>{{ item.status }}</td>
+                <td *ngIf="item.status !== 'PENDING'"></td>
+                <td class="text-end" *ngIf="item.status == 'PENDING'">
                   <div class="dropdown dropdown-action">
                     <a
                       class="action-icon dropdown-toggle"
@@ -208,7 +211,7 @@
                     disabled:
                       currentPage ==
                         pageNumberArray[pageNumberArray.length - 1] ||
-                        lstreclamations.length == 0
+                      lstreclamations.length == 0
                   }"
                 >
                   <a
@@ -249,17 +252,21 @@
         </div>
         <div class="modal-body">
           <form [formGroup]="addreclamationsForm">
-
             <div class="form-group">
               <label>Message <span class="text-danger">*</span></label>
 
-              <textarea   class="form-control"
-              type="text"
-              [class.invalid]="
-                addreclamationsForm.get('message').invalid &&
-                addreclamationsForm.get('message').touched
-              "
-              formControlName="message" id="" cols="30" rows="10"></textarea>
+              <textarea
+                class="form-control"
+                type="text"
+                [class.invalid]="
+                  addreclamationsForm.get('message').invalid &&
+                  addreclamationsForm.get('message').touched
+                "
+                formControlName="message"
+                id=""
+                cols="30"
+                rows="10"
+              ></textarea>
               <div
                 *ngIf="
                   addreclamationsForm.get('message').invalid &&
@@ -316,13 +323,18 @@
             <div class="form-group">
               <label>Message <span class="text-danger">*</span></label>
 
-              <textarea   class="form-control"
-              type="text"
-              [class.invalid]="
-                editreclamationsForm.get('message').invalid &&
-                editreclamationsForm.get('message').touched
-              "
-              formControlName="message" id="" cols="30" rows="10"></textarea>
+              <textarea
+                class="form-control"
+                type="text"
+                [class.invalid]="
+                  editreclamationsForm.get('message').invalid &&
+                  editreclamationsForm.get('message').touched
+                "
+                formControlName="message"
+                id=""
+                cols="30"
+                rows="10"
+              ></textarea>
               <div
                 *ngIf="
                   editreclamationsForm.get('message').invalid &&

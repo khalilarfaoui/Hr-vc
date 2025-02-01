@@ -16,16 +16,19 @@ public class Postulation {
     private String email;
     private String message;
     private String cvPath;  // Chemin vers le fichier CV
-
+    private long addedBy ;
 
     public Postulation() {
     }
 
-    public Postulation(String nom, String email, String message, String cvPath) {
+
+
+    public Postulation(String nom, String email, String message, long addedBy, String cvPath) {
         this.nom = nom;
         this.email = email;
         this.message = message;
         this.cvPath = cvPath;
+        this.addedBy = addedBy;
     }
 
     public Long getId() {

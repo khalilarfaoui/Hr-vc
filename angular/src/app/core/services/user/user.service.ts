@@ -52,8 +52,8 @@ export class UserService {
   }
 
   public message = {
-    create : "Utilisateur crée avec succès." ,
-    update : "Utilisateur mise à jour avec succès.",
-    delete : "Utilisateur supprimée avec succès"
+    create: "User created successfully.",
+    update: "User updated successfully.",
+    delete: "User deleted successfully."
   }
 }

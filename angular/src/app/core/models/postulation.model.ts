@@ -4,4 +4,5 @@ export interface Postulation {
   message: string;
   cv: File | null;  // Le fichier CV
   offreId: number;
+  addedBy : number
 }

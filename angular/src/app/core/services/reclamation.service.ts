@@ -7,6 +7,15 @@ export interface Reclamation {
   name: string;
   message: string;
   localDateTime?: string;
+  status : Status
+  text : any
+}
+
+enum Status {
+  PENDING = 'PENDING', // En attente
+  IN_PROGRESS = 'IN_PROGRESS', // En cours de traitement
+  RESOLVED = 'RESOLVED', // Résolu
+  REJECTED = 'REJECTED' // Rejeté
 }
 
 @Injectable({
@@ -28,6 +37,10 @@ export class ReclamationService {
     return this.http.get<Reclamation[]>(this.apiUrl);
   }
 
+  sendEmail(data:any): Observable<void> {
+    return this.http.post<void>(this.apiUrl+"/send-email/response" , data);
+  }
+
   // Récupérer une réclamation par ID
   getReclamationById(): Observable<Reclamation> {
     const id = localStorage.getItem("id")
@@ -37,6 +50,9 @@ export class ReclamationService {
   // Mettre à jour une réclamation
   updateReclamation(id: number, reclamation: Reclamation): Observable<Reclamation> {
     return this.http.put<Reclamation>(`${this.apiUrl}/${id}`, reclamation);
+  }
+  updateSimpleReclamation(id: number, reclamation: Reclamation): Observable<Reclamation> {
+    return this.http.put<Reclamation>(`${this.apiUrl}/simple-edit/${id}`, reclamation);
   }
 
   // Supprimer une réclamation

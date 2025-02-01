@@ -21,6 +21,7 @@ export class PostulerService {
     formData.append('nom', postulation.nom);
     formData.append('email', postulation.email);
     formData.append('message', postulation.message);
+    formData.append('addedBy', String(postulation.addedBy));
     formData.append('cv', postulation.cv as Blob);
     // Ajoutez l'ID de l'offre dans les données de la requête
     // formData.append('offreId', offreId.toString());

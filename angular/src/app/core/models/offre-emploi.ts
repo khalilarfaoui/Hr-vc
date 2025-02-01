@@ -6,6 +6,7 @@ export interface OffreEmploi {
   localisation: string;
   salaire: number;
   typeContrat: TypeContrat;
+  addedBy  :number
 }
 
 export enum TypeContrat {

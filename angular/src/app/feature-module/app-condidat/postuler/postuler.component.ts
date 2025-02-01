@@ -32,6 +32,7 @@ export class PostulerComponent implements OnInit {
       nom: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       message: ['', Validators.required],
+      addedBy : [''],
       cv: [null],
     });
     window.onresize = (e) => {
@@ -45,16 +46,16 @@ export class PostulerComponent implements OnInit {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.offreEmploiService.getOffres().subscribe((offres) => {
       this.offre = offres.find((o) => o.id === id) || null;
-    });
-    this.userService.getUserById(this.idUser).subscribe(res=>{
-      console.log(res);
-      this.data = res
-      this.postulerForm.patchValue({
-        email : this.data.email ,
-        nom : this.data.firstName + " "+ this.data.lastName ,
-
+      this.userService.getUserById(this.idUser).subscribe(res=>{
+        console.log(res);
+        this.data = res
+        this.postulerForm.patchValue({
+          email : this.data.email ,
+          nom : this.data.firstName + " "+ this.data.lastName ,
+          addedBy : this.offre?.addedBy
+        })
       })
-    })
+    });
 
   }
   public innerHeight: any;
@@ -75,6 +76,7 @@ export class PostulerComponent implements OnInit {
         nom: this.postulerForm.get('nom')?.value,
         email: this.postulerForm.get('email')?.value,
         message: this.postulerForm.get('message')?.value,
+        addedBy: this.postulerForm.get('addedBy')?.value,
         cv: this.selectedFile, // Utiliser le fichier sélectionné
         offreId: this.offre?.id ?? 0,
       };
@@ -85,7 +87,7 @@ export class PostulerComponent implements OnInit {
           Swal.fire({
             position: 'top-end',
             icon: 'success',
-            title: 'Postulation envoyée avec succès',
+            title: 'Successfully Done',
             showConfirmButton: false,
             timer: 1500,
           }).then(() => {

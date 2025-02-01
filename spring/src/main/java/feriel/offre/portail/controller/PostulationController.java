@@ -44,6 +44,7 @@ public class PostulationController {
                                            @RequestParam("nom") String nom,
                                            @RequestParam("email") String email,
                                            @RequestParam("message") String message,
+                                           @RequestParam("addedBy") long addedBy,
                                            @RequestParam("cv") MultipartFile cv) {
 
         // Sauvegarde du fichier CV
@@ -54,7 +55,7 @@ public class PostulationController {
         }
 
         // Créer l'objet de postulation
-        Postulation postulation = new Postulation(nom, email, message, cvPath);
+        Postulation postulation = new Postulation(nom, email, message,addedBy , cvPath);
 
         // Sauvegarder la postulation dans la base de données
         postulationService.postuler(postulation);
